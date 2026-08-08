@@ -80,14 +80,19 @@ class DebugScreen:
             callback=self.add_joker
         )
         self.btn_reset_run = Button(
-            DESIGN_W // 2 - 250, 340, 230, 38, "Reiniciar Partida",
-            bg_color=C.BTN_DISABLED, hover_color=C.PANEL_BORDER, font_size=16,
+            DESIGN_W // 2 - 250, 340, 150, 38, "Reiniciar",
+            bg_color=C.BTN_DISABLED, hover_color=C.PANEL_BORDER, font_size=15,
             callback=self.reset_state
         )
         self.btn_win = Button(
-            DESIGN_W // 2 + 20, 340, 230, 38, "9. Victoria",
-            bg_color=C.BTN_GREEN, hover_color=C.BTN_GREEN_HI, font_size=16,
+            DESIGN_W // 2 - 90, 340, 150, 38, "9. Victoria",
+            bg_color=C.BTN_GREEN, hover_color=C.BTN_GREEN_HI, font_size=15,
             callback=lambda: self.manager.change_screen("win")
+        )
+        self.btn_hand_size = Button(
+            DESIGN_W // 2 + 70, 340, 180, 38, f"Mano: {self.state.hand_size} cartas",
+            bg_color=C.BTN_ORANGE, hover_color=C.BTN_ORANGE_HI, font_size=15,
+            callback=self.cycle_hand_size
         )
 
         # Boss Selector Buttons
@@ -124,7 +129,7 @@ class DebugScreen:
             self.btn_shop, self.btn_collection,
             self.btn_settings, self.btn_game_over,
             self.btn_add_money, self.btn_add_joker,
-            self.btn_reset_run, self.btn_win,
+            self.btn_reset_run, self.btn_win, self.btn_hand_size,
             self.btn_boss_anzuelo, self.btn_boss_pilar,
             self.btn_boss_rueda, self.btn_boss_muro,
             self.btn_boss_ventana
@@ -142,6 +147,14 @@ class DebugScreen:
     def reset_state(self):
         self.state.reset_run()
 
+    def cycle_hand_size(self):
+        sizes = [8, 9, 10, 12, 15, 5, 7]
+        curr_idx = sizes.index(self.state.hand_size) if self.state.hand_size in sizes else -1
+        next_size = sizes[(curr_idx + 1) % len(sizes)]
+        self.state.hand_size = next_size
+        self.state.draw_to_hand()
+        self.btn_hand_size.text = f"Mano: {self.state.hand_size} cartas"
+
     def select_boss(self, boss_name: str):
         for b in BOSS_BLINDS:
             if b["name"] == boss_name:
@@ -154,7 +167,7 @@ class DebugScreen:
         self.manager.change_screen("gameplay")
 
     def on_enter(self):
-        pass
+        self.btn_hand_size.text = f"Mano: {self.state.hand_size} cartas"
 
     def update(self, dt: float, mouse_pos: tuple[int, int]):
         for btn in self.buttons:
