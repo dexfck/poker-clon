@@ -21,7 +21,7 @@ jobs:
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install pygame-ce numpy pyinstaller
+          pip install pygame-ce numpy pyinstaller pillow
 
       - name: Build Windows Executable with PyInstaller
         run: |
@@ -48,7 +48,7 @@ jobs:
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install pygame-ce numpy pyinstaller
+          pip install pygame-ce numpy pyinstaller pillow
 
       - name: Build Linux Executable with PyInstaller
         run: |

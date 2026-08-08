@@ -6,7 +6,7 @@ echo =========================================================================
 echo.
 
 echo 1. Instalando dependencias necesarias para empaquetar...
-pip install pygame-ce numpy pyinstaller
+pip install pygame-ce numpy pyinstaller pillow
 
 echo.
 echo 2. Generando ejecutable standalone unico Poker2.exe...

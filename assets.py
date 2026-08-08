@@ -5,7 +5,6 @@ Basado en example/assets.py con paths adaptados.
 """
 import os
 import pygame
-from PIL import Image
 from settings import TEXTURES_DIR, FONTS_DIR, SOUNDS_DIR, Sprite, CARD_DISPLAY_W, CARD_DISPLAY_H
 
 
@@ -165,10 +164,7 @@ class AssetManager:
             return pygame.Surface((1, 1), pygame.SRCALPHA)
 
         try:
-            pil_img = Image.open(path).convert("RGBA")
-            data = pil_img.tobytes()
-            size = pil_img.size
-            return pygame.image.fromstring(data, size, "RGBA").convert_alpha()
+            return pygame.image.load(path).convert_alpha()
         except Exception:
             return pygame.Surface((1, 1), pygame.SRCALPHA)
 
