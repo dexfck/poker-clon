@@ -1,0 +1,61 @@
+name: Build Executables
+
+on:
+  push:
+    branches: [ main, master ]
+  workflow_dispatch:
+
+jobs:
+  build-windows:
+    name: Build Windows Executable
+    runs-on: windows-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install pygame-ce numpy pyinstaller
+
+      - name: Build Windows Executable with PyInstaller
+        run: |
+          pyinstaller --noconfirm --onefile --windowed --name "Poker2" --add-data "assets;assets" --add-data "resources;resources" main.py
+
+      - name: Upload Windows Executable Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: Poker2-Windows-exe
+          path: dist/Poker2.exe
+
+  build-linux:
+    name: Build Linux Binary
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install pygame-ce numpy pyinstaller
+
+      - name: Build Linux Executable with PyInstaller
+        run: |
+          pyinstaller --noconfirm --onefile --name "Poker2-Linux" --add-data "assets:assets" --add-data "resources:resources" main.py
+
+      - name: Upload Linux Binary Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: Poker2-Linux-binary
+          path: dist/Poker2-Linux

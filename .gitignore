@@ -1,0 +1,26 @@
+# Entorno virtual de Python
+venv
+venv/
+venv/*
+env/
+ENV/
+
+# Archivos de caché de Python
+__pycache__/
+*.py[cod]
+*$py.class
+
+# PyInstaller / Salidas de compilación
+build/
+dist/
+*.spec
+
+# IDEs y Editores
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Archivos del sistema
+.DS_Store
+Thumbs.db
